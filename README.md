@@ -4,7 +4,7 @@
 
 <img src='imgs/teasear.png' width="900px">
 
-Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vectors (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
+Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
 
 ## Qualitative Results
 ### Reference-guided
@@ -38,7 +38,7 @@ mkdir datasets
 ```
 - Yosemite  (summer <-> winter) 
 - Photo2Artworks
-- CelebA-HQ
+- CelebA-HQ <br>
 We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
 - AFHQ 
 
@@ -62,7 +62,10 @@ python train.py --dataroot ./datasets/AFHQ/ --phase train --type 0 --name AFHQ -
 
 
 ## Pre-trained Models
-
+- [Yosemite](https://drive.google.com/open?id=1eWq1nD-zJVEerru-_X5Ztpb8YbcYo7Px) 
+- [Photo2Artworks](https://drive.google.com/open?id=1ZXnh090MFMrw8iSMjk5zvqXYY_nMmCoU)
+- [CelebAHQ](https://drive.google.com/open?id=1jLZHhWjxz_JyszU1_hj39l3_8zU9Hfkw)
+- [AFHQ](https://drive.google.com/open?id=1tnDDolN-OMLG4BUNB6rPIjSXoP2FbXgw)
 
 Download and save them into 
 ```
@@ -70,26 +73,12 @@ Download and save them into
 
 ```
 
-### Testing Examples
+## Testing 
 **Reference-guided
 ```
-python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth
+python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num 5 --name CelebAHQ_ref  
 ```
-**Pix2Pix-Mode-Seeking** <br>
+**Latent-guided** 
 ```
-python test.py --dataroot ./datasets/facades --checkpoints_dir ./models/Pix2Pix-Mode-Seeking/facades --epoch 400
-```
-```
-python test.py --dataroot ./datasets/maps --checkpoints_dir ./models/Pix2Pix-Mode-Seeking/maps --epoch 400
-```
-**DRIT-Mode-Seeking** <br>
-```
-python test.py --dataroot ./datasets/yosemite --resume ./models/DRIT-Mode-Seeking/yosemite/01200.pth --concat 1
-```
-```
-python test.py --dataroot ./datasets/cat2dog --resume ./models/DRIT-Mode-Seeking/cat2dog/01999.pth --concat 0
-```
-**StackGAN++-Mode-Seeking** <br>
-```
-python main.py --cfg cfg/eval_birds.yml 
+python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num 5 --name CelebAHQ_rdm  
 ```
