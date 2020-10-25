@@ -38,34 +38,17 @@ def save_concat_imgs(imgs, name, path):
 
 class Saver():
   def __init__(self, opts):
-    self.display_dir = os.path.join(opts.display_dir, opts.name)
     self.model_dir = os.path.join(opts.result_dir, opts.name)
     self.image_dir = os.path.join(self.model_dir, 'images')
-    self.display_freq = opts.display_freq
     self.img_save_freq = opts.img_save_freq
     self.model_save_freq = opts.model_save_freq
 
     # make directory
-    if not os.path.exists(self.display_dir):
-      os.makedirs(self.display_dir)
     if not os.path.exists(self.model_dir):
       os.makedirs(self.model_dir)
     if not os.path.exists(self.image_dir):
       os.makedirs(self.image_dir)
 
-    # create tensorboard writer
-    self.writer = SummaryWriter(log_dir=self.display_dir)
-
-  # write losses and images to tensorboard
-  def write_display(self, total_it, model):
-    if (total_it + 1) % self.display_freq == 0:
-      # write loss
-      members = [attr for attr in dir(model) if not callable(getattr(model, attr)) and not attr.startswith("__") and 'loss' in attr]
-      for m in members:
-        self.writer.add_scalar(m, getattr(model, m), total_it)
-      # write img
-      image_dis = torchvision.utils.make_grid(model.image_display, nrow=model.image_display.size(0)//2)/2 + 0.5
-      self.writer.add_image('Image', image_dis, total_it)
 
   # save result images
   def write_img(self, ep, model):

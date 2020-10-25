@@ -76,8 +76,6 @@ class dataset_multi(data.Dataset):
 class dataset_single(data.Dataset):
   def __init__(self, opts, domain):
     self.dataroot = opts.dataroot
-    self.style_dim =opts.style_dim
-    self.num_domains =opts.num_domains
     domains = [chr(i) for i in range(ord('A'),ord('Z')+1)]
     index = ord(domain) - ord('A')
     images = os.listdir(os.path.join(self.dataroot, opts.phase + domains[index]))
@@ -85,11 +83,9 @@ class dataset_single(data.Dataset):
     self.size = len(self.img)
     self.input_dim = opts.input_dim
 
-    self.c_org_mask = np.ones((opts.num_domains,)) *(-1)
-    self.c_org_mask[ord( domains[index])-ord('A')] = 1
     # setup image transformation
     transforms = [Resize((opts.resize_size, opts.resize_size), Image.BICUBIC)]
-    transforms.append(CenterCrop(opts.crop_size))
+    transforms.append(CenterCrop(opts.img_size))
     transforms.append(ToTensor())
     transforms.append(Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]))
     self.transforms = Compose(transforms)
@@ -97,10 +93,7 @@ class dataset_single(data.Dataset):
 
   def __getitem__(self, index):
     data = self.load_img(self.img[index], self.input_dim)
-    c_org_mask = torch.FloatTensor(self.c_org_mask)
-    c_org_mask = c_org_mask.view(-1, 1).repeat(1, self.style_dim)
-    c_org_mask = c_org_mask.view(self.num_domains * self.style_dim)
-    return data, c_org_mask
+    return data
 
   def load_img(self, img_name, input_dim):
     img = Image.open(img_name).convert('RGB')

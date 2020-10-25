@@ -1,7 +1,7 @@
 import torch
 from options import TrainOptions
 from datasets import dataset_multi
-from model import CIT
+from model import SAVI2I
 from saver import Saver
 
 def main():
@@ -16,7 +16,7 @@ def main():
 
   # model
   print('\n--- load model ---')
-  model = CIT(opts)
+  model = SAVI2I(opts)
   model.setgpu(opts.gpu)
   if opts.resume is None:
     model.initialize()
@@ -48,18 +48,12 @@ def main():
 
 
       # update model
-
       if (it + 1) % opts.d_iter != 0 and it < len(train_loader) - 2:
         model.update_D_content(images, c_org)
         continue
       else:
         model.update_D(images, c_org, c_org_mask, c_org_id)
         model.update_EFG()
-
-
-      # save to display file
-      if not opts.no_display_img:
-        saver.write_display(total_it, model)
 
       print('total_it: %d (ep %d, it %d), lr %08f' % (total_it, ep, it, model.gen_opt.param_groups[0]['lr']))
       total_it += 1

@@ -1,4 +1,3 @@
-import networks
 import torch
 import torch.nn as nn
 import numpy as np
@@ -7,48 +6,62 @@ import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
 import os
 import torchvision.utils as vutils
+import networks
 
-class CIT(nn.Module):
+class SAVI2I(nn.Module):
   def __init__(self, opts):
-    super(CIT, self).__init__()
+    super(SAVI2I, self).__init__()
     self.opts = opts
-    self.lr = opts.lr
-    self.f_lr = opts.f_lr
-    self.lr_dcontent = self.lr/2.5
+    if opts.gpu >= 0:
+        self.device = torch.device('cuda:%d' % opts.gpu)
+    else:
+        self.device = torch.device('cpu')
+        torch.cuda.set_device(opts.gpu)
+        cudnn.benchmark = True
+
+    self.phase = opts.phase
+    self.type = opts.type
     self.nz = opts.input_nz
     self.style_dim = opts.style_dim
     self.num_domains = opts.num_domains
 
-    if opts.gpu >= 0:
-      self.device = torch.device('cuda:%d' % opts.gpu)
-    else:
-      self.device = torch.device('cpu')
-      torch.cuda.set_device(opts.gpu)
-      cudnn.benchmark = True
 
-    self.dis = nn.DataParallel(networks.Discriminator(img_size=opts.img_size, num_domains=self.num_domains))
-    self.disContent = nn.DataParallel(networks.Dis_content(c_dim=self.num_domains))
-
-    self.enc_c = nn.DataParallel(networks.E_content(img_size=opts.img_size, input_dim=opts.input_dim))
-    self.enc_a = nn.DataParallel(networks.E_attr(img_size=opts.img_size, input_dim=opts.input_dim, nz=self.nz, n_domains=self.num_domains))
-    self.f = nn.DataParallel(networks.MappingNetwork(nz=self.nz, n_domains=self.num_domains, n_style=self.style_dim, hidden_dim=512, hidden_layer=1))
-    self.gen = nn.DataParallel(networks.Generator(img_size=opts.img_size, style_dim=self.style_dim))
-
+    self.enc_a = nn.DataParallel(
+        networks.E_attr(img_size=opts.img_size, input_dim=opts.input_dim, nz=self.nz, n_domains=self.num_domains))
+    self.f = nn.DataParallel(
+        networks.MappingNetwork(nz=self.nz, n_domains=self.num_domains, n_style=self.style_dim, hidden_dim=512,
+                                hidden_layer=1))
     self.vgg = networks.VGG(self.device)
+    if self.type==1:
+      self.enc_c = nn.DataParallel(networks.E_content_style(img_size=opts.img_size, input_dim=opts.input_dim))
+      self.gen = nn.DataParallel(networks.Generator_style(img_size=opts.img_size, style_dim=self.style_dim))
+    elif self.type==0:
+      self.enc_c = nn.DataParallel(networks.E_content_shape(img_size=opts.img_size, input_dim=opts.input_dim))
+      self.gen = nn.DataParallel(networks.Generator_shape(img_size=opts.img_size, style_dim=self.style_dim))
 
-    self.dis_opt = torch.optim.Adam(self.dis.parameters(), lr=self.lr, betas=(0, 0.99), weight_decay=0.0001)
-    self.enc_c_opt = torch.optim.Adam(self.enc_c.parameters(), lr=self.lr, betas=(0, 0.99), weight_decay=0.0001)
-    self.enc_a_opt = torch.optim.Adam(self.enc_a.parameters(), lr=self.lr, betas=(0, 0.99), weight_decay=0.0001)
-    self.gen_opt = torch.optim.Adam(self.gen.parameters(), lr=self.lr, betas=(0, 0.99), weight_decay=0.0001)
-    self.f_opt = torch.optim.Adam(self.f.parameters(), lr=self.f_lr, betas=(0, 0.99), weight_decay=0.0001)
-    self.disContent_opt = torch.optim.Adam(self.disContent.parameters(), lr=self.lr_dcontent, betas=(0, 0.99), weight_decay=0.0001)
+    if self.phase == 'train':
+      self.lr = opts.lr
+      self.f_lr = opts.f_lr
+      self.lr_dcontent = self.lr/2.5
+      self.dis = nn.DataParallel(networks.Discriminator(img_size=opts.img_size, num_domains=self.num_domains))
+      if self.type==1:
+        self.disContent = nn.DataParallel(networks.Dis_content_style(c_dim=self.num_domains))
+      elif self.type==0:
+        self.disContent = nn.DataParallel(networks.Dis_content_shape(c_dim=self.num_domains))
+      self.dis_opt = torch.optim.Adam(self.dis.parameters(), lr=self.lr, betas=(0, 0.99), weight_decay=0.0001)
+      self.enc_c_opt = torch.optim.Adam(self.enc_c.parameters(), lr=self.lr, betas=(0, 0.99), weight_decay=0.0001)
+      self.enc_a_opt = torch.optim.Adam(self.enc_a.parameters(), lr=self.lr, betas=(0, 0.99), weight_decay=0.0001)
+      self.gen_opt = torch.optim.Adam(self.gen.parameters(), lr=self.lr, betas=(0, 0.99), weight_decay=0.0001)
+      self.f_opt = torch.optim.Adam(self.f.parameters(), lr=self.f_lr, betas=(0, 0.99), weight_decay=0.0001)
+      self.disContent_opt = torch.optim.Adam(self.disContent.parameters(), lr=self.lr_dcontent, betas=(0, 0.99), weight_decay=0.0001)
 
-    self.criterion_GAN = nn.BCEWithLogitsLoss()
-    self.criterion_mmd = utils.get_mmd_loss()
+      self.criterion_GAN = nn.BCEWithLogitsLoss()
+      self.criterion_mmd = utils.get_mmd_loss()
 
   def initialize(self):
     self.dis.apply(networks.he_init)
-    #self.gen.apply(networks.he_init)
+    if self.type == 0:
+      self.gen.apply(networks.he_init)
     self.enc_c.apply(networks.he_init)
     self.enc_a.apply(networks.he_init)
     self.f.apply(networks.he_init)
@@ -72,25 +85,21 @@ class CIT(nn.Module):
 
   def setgpu(self, gpu):
     self.gpu = gpu
-    self.dis.cuda(self.gpu)
     self.enc_c.cuda(self.gpu)
     self.enc_a.cuda(self.gpu)
     self.gen.cuda(self.gpu)
     self.f.cuda(self.gpu)
-    self.disContent.cuda(self.gpu)
+    if self.phase=='train':
+      self.disContent.cuda(self.gpu)
+      self.dis.cuda(self.gpu)
 
   def get_z_random(self, batchSize, nz):
     z = torch.randn(batchSize, nz).cuda(self.gpu)
     return z
 
-  
 
-  
   def forward(self):
     # input images
-    # if not self.input.size(0)%2 == 0:
-    #   print("Need to be even QAQ")
-    #   input()
     half_size = self.input.size(0)//2
     self.real_A = self.input[0:half_size]
     self.real_B = self.input[half_size:]
@@ -125,9 +134,6 @@ class CIT(nn.Module):
     self.c_rvs = self.c_org[rvs_index]
     self.c_rvs_mask = self.c_org_mask[rvs_index]
     self.c_rvs_id = self.c_org_id[rvs_index]
-    
-    self.z_attr_rvs = self.z_attr * self.c_org_mask * self.c_rvs_mask
-    self.z_attr_rvs_a, self.z_attr_rvs_b = torch.split(self.z_attr_rvs, half_size, dim=0)
 
     self.z_random_rvs = self.z_random* self.c_org_mask * self.c_rvs_mask
     self.z_random_rvs_a, self.z_random_rvs_b = torch.split(self.z_random_rvs, half_size, dim=0)
@@ -139,18 +145,18 @@ class CIT(nn.Module):
     self.z_interp_b2rvs = self.z_random_b + alpha * (self.z_random_rvs_b - self.z_random_b)
 
     # first cross translation
-    input_content_forA = torch.cat((self.z_content_b, self.z_content_a, self.z_content_a, self.z_content_b, self.z_content_b, self.z_content_b, self.z_content_b), 0)
-    input_content_forB = torch.cat((self.z_content_a, self.z_content_b, self.z_content_b, self.z_content_a, self.z_content_a, self.z_content_a, self.z_content_a), 0)
-    input_attr_forA = torch.cat((self.z_attr_a, self.z_attr_rvs_a, self.z_attr_a, self.z_random_a, self.z_random_rvs_a, self.z_interp_a2rvs, self.z_random_a2), 0)
-    input_attr_forB = torch.cat((self.z_attr_b, self.z_attr_rvs_b, self.z_attr_b, self.z_random_b, self.z_random_rvs_b, self.z_interp_b2rvs, self.z_random_b2), 0)
+    input_content_forA = torch.cat((self.z_content_b, self.z_content_a, self.z_content_b, self.z_content_b, self.z_content_b, self.z_content_b), 0)
+    input_content_forB = torch.cat((self.z_content_a, self.z_content_b, self.z_content_a, self.z_content_a, self.z_content_a, self.z_content_a), 0)
+    input_attr_forA = torch.cat((self.z_attr_a, self.z_attr_a, self.z_random_a, self.z_random_rvs_a, self.z_interp_a2rvs, self.z_random_a2), 0)
+    input_attr_forB = torch.cat((self.z_attr_b, self.z_attr_b, self.z_random_b, self.z_random_rvs_b, self.z_interp_b2rvs, self.z_random_b2), 0)
 
     input_attr_forA = self.f.forward(input_attr_forA)
     input_attr_forB = self.f.forward(input_attr_forB)
 
     output_fakeA = self.gen.forward(input_content_forA, input_attr_forA)
     output_fakeB = self.gen.forward(input_content_forB, input_attr_forB)
-    self.fake_A_encoded,  self.fake_A_reverse, self.fake_AA_encoded, self.fake_A_random, self.fake_A_random_rvs, self.fake_A_interp, self.fake_A_random2 = torch.split(output_fakeA, self.z_content_a.size(0), dim=0)
-    self.fake_B_encoded,  self.fake_B_reverse, self.fake_BB_encoded, self.fake_B_random, self.fake_B_random_rvs, self.fake_B_interp, self.fake_B_random2 = torch.split(output_fakeB, self.z_content_a.size(0), dim=0)
+    self.fake_A_encoded, self.fake_AA_encoded, self.fake_A_random, self.fake_A_random_rvs, self.fake_A_interp, self.fake_A_random2 = torch.split(output_fakeA, self.z_content_a.size(0), dim=0)
+    self.fake_B_encoded, self.fake_BB_encoded, self.fake_B_random, self.fake_B_random_rvs, self.fake_B_interp, self.fake_B_random2 = torch.split(output_fakeB, self.z_content_a.size(0), dim=0)
 
     # get reconstructed encoded z_c
     self.fake_encoded_img = torch.cat((self.fake_A_encoded, self.fake_B_encoded), 0)
@@ -164,44 +170,17 @@ class CIT(nn.Module):
     self.fake_B_recon = self.gen.forward(torch.cat((self.z_content_recon_b, self.z_content_recon_b2),0), self.f.forward(torch.cat((self.z_attr_b,self.z_attr_b),0)))
     self.fake_A_recon1, self.fake_A_recon2 = torch.split(self.fake_A_recon, half_size, dim=0)
     self.fake_B_recon1, self.fake_B_recon2 = torch.split(self.fake_B_recon, half_size, dim=0)
-    
-    self.fake_reverse_img = torch.cat((self.fake_A_reverse, self.fake_B_reverse), 0)
-    self.z_content_rvs_recon = self.enc_c.forward(self.fake_reverse_img)
-    self.z_content_rvs_recon_a, self.z_content_rvs_recon_b = torch.split(self.z_content_rvs_recon, half_size, dim=0)
-
-
-    #get reconstructed encoded z_a
-    self.z_attr_rvs_recon = self.enc_a.forward(self.fake_reverse_img)
-    self.z_attr_rvs_recon = self.z_attr_rvs_recon * self.c_rvs_mask * self.c_org_mask
-    self.z_attr_rvs_recon_a, self.z_attr_rvs_recon_b = torch.split(self.z_attr_rvs_recon, half_size, dim=0)
-    # reverse reverse
-    self.fake_encoded_double_rvs = self.gen.forward(torch.cat((self.z_content_rvs_recon_a, self.z_content_rvs_recon_b),0) ,self.f.forward(torch.cat((self.z_attr_rvs_recon_a, self.z_attr_rvs_recon_b),0)))
-    
 
 
     # for latent regression
     self.fake_random_img2 = torch.cat((self.fake_A_random2, self.fake_B_random2), 0)
     self.fake_random_rvs_img = torch.cat((self.fake_A_random_rvs, self.fake_B_random_rvs), 0)
     self.z_content_random_rvs_recon = self.enc_c.forward(self.fake_random_rvs_img)
-
-    self.fake_interp_img = torch.cat((self.fake_A_interp, self.fake_B_interp))
-    self.z_interp_attr_recon = self.enc_a.forward(self.fake_interp_img)
-
     self.z_attr_random = self.enc_a.forward(self.fake_random_img)
     self.z_attr_random_a, self.z_attr_random_b = torch.split(self.z_attr_random, half_size, 0)
+    self.fake_interp_img = torch.cat((self.fake_A_interp, self.fake_B_interp))
 
-    self.z_random_rvs_recon = self.enc_a.forward(self.fake_random_rvs_img)
-    self.z_random_recon = self.z_random_rvs_recon * self.c_rvs_mask * self.c_org_mask
-    #double rvs
-    self.fake_random_double_rvs = self.gen.forward(self.z_content_random_rvs_recon, self.f.forward(self.z_random_recon))
 
-    # for display
-    self.image_display = torch.cat((self.real_A[0:1].detach().cpu(), self.fake_B_encoded[0:1].detach().cpu(), \
-                                    self.fake_B_random[0:1].detach().cpu(), self.fake_AA_encoded[0:1].detach().cpu(),
-                                    self.fake_A_recon[0:1].detach().cpu(), \
-                                    self.real_B[0:1].detach().cpu(), self.fake_A_encoded[0:1].detach().cpu(), \
-                                    self.fake_A_random[0:1].detach().cpu(), self.fake_BB_encoded[0:1].detach().cpu(),
-                                    self.fake_B_recon[0:1].detach().cpu()), dim=0)
 
   def update_D_content(self, image, c_org):
     self.input = image
@@ -223,12 +202,8 @@ class CIT(nn.Module):
 
     self.dis_opt.zero_grad()
     self.D1_gan_loss, self.D1_reg_loss = self.backward_D(self.dis, self.input, self.fake_encoded_img, self.c_org_id)
-    #D1_gan_rvs_loss, D1_reg_rvs_loss = self.backward_D(self.dis, self.input_rvs, self.fake_reverse_img, self.c_rvs_id)
-    #self.D1_gan_loss += D1_gan_rvs_loss
-    #self.D1_reg_loss += D1_reg_rvs_loss
-    self.dis_opt.step()
 
-    self.dis_opt.zero_grad()
+
     self.D2_gan_loss, self.D2_reg_loss = self.backward_D(self.dis, self.input, self.fake_random_img, self.c_org_id)
     loss_D2_rvs_loss, D2_reg_rvs_loss = self.backward_D(self.dis, self.input_rvs, self.fake_random_rvs_img, self.c_rvs_id)
     loss_D2_gan_loss2, loss_D2_reg_loss2 = self.backward_D(self.dis, self.input, self.fake_random_img2, self.c_org_id)
@@ -237,8 +212,8 @@ class CIT(nn.Module):
     elif self.alpha[0] == 0.5:
       loss_D2_interp_loss1, D2_reg_interp_loss1 = self.backward_D_mix(self.dis, self.input, self.fake_interp_img, self.c_org_id)
       loss_D2_interp_loss2, D2_reg_interp_loss2 = self.backward_D_mix(self.dis, self.input_rvs, self.fake_interp_img, self.c_rvs_id)
-      loss_D2_interp_loss = 0.5 * loss_D2_interp_loss1 + 0.5 * loss_D2_interp_loss2
-      D2_reg_interp_loss = 0.5 * D2_reg_interp_loss1 + 0.5 * D2_reg_interp_loss2
+      loss_D2_interp_loss = loss_D2_interp_loss1 + loss_D2_interp_loss2
+      D2_reg_interp_loss = D2_reg_interp_loss1 + D2_reg_interp_loss2
     else:
       loss_D2_interp_loss, D2_reg_interp_loss = self.backward_D(self.dis, self.input_rvs, self.fake_interp_img, self.c_rvs_id)
 
@@ -260,7 +235,7 @@ class CIT(nn.Module):
       ad_true_loss = self.criterion_GAN(out_real, all1)
       loss_D += ad_true_loss + ad_fake_loss
     loss_D.backward(retain_graph=True)
-    l_reg = utils.calc_grad2(pred_real, real)*10
+    l_reg = utils.calc_grad2(pred_real, real) *self.opts.lambda_r1
     l_reg.backward()
     return loss_D.item(), l_reg.item()
 
@@ -278,7 +253,7 @@ class CIT(nn.Module):
       ad_true_loss = self.criterion_GAN(out_real, all1)
       loss_D += (ad_true_loss + ad_fake_loss) * 0.5
     loss_D.backward(retain_graph=True)
-    l_reg = utils.calc_grad2(pred_real, real) *10 * 0.5
+    l_reg = utils.calc_grad2(pred_real, real) * 0.5 * self.opts.lambda_r1
     l_reg.backward(retain_graph=True)
     return loss_D.item(), l_reg.item()
 
@@ -301,14 +276,10 @@ class CIT(nn.Module):
     pred_fake = self.dis.forward(self.fake_encoded_img, self.c_org_id)
     all_ones = torch.ones_like(pred_fake).cuda(self.gpu)
     loss_G_GAN = self.criterion_GAN(pred_fake, all_ones)
-    
-    #pred_fake = self.dis.forward(self.fake_reverse_img, self.c_rvs_id)
-    #all_ones = torch.ones_like(pred_fake).cuda(self.gpu)
-    #loss_G_GAN+= self.criterion_GAN(pred_fake, all_ones)
-    
 
     pred_fake = self.dis.forward(self.fake_random_img, self.c_org_id)
     loss_G_GAN2 = self.criterion_GAN(pred_fake, all_ones)
+
     pred_fake_rvs = self.dis.forward(self.fake_random_rvs_img, self.c_rvs_id)
     loss_G_GAN2 += self.criterion_GAN(pred_fake_rvs, all_ones)
 
@@ -342,8 +313,8 @@ class CIT(nn.Module):
     loss_mmd_za = (self.criterion_mmd(self.z_attr_a, self.z_random_a) + self.criterion_mmd(self.z_attr_b, self.z_random_b))* self.opts.lambda_mmd
 
     # latent regression loss
-    loss_z_L1_a = torch.mean(torch.abs(self.z_attr_random_a - self.z_random_a)) * 10
-    loss_z_L1_b = torch.mean(torch.abs(self.z_attr_random_b - self.z_random_b)) * 10
+    loss_z_L1_a = torch.mean(torch.abs(self.z_attr_random_a - self.z_random_a)) * self.opts.lambda_rec
+    loss_z_L1_b = torch.mean(torch.abs(self.z_attr_random_b - self.z_random_b)) * self.opts.lambda_rec
 
     # mode seeking loss for A-->B and B-->A
     lz_AB = torch.mean(torch.abs(self.fake_B_random2 - self.fake_B_random)) / torch.mean(
@@ -354,9 +325,7 @@ class CIT(nn.Module):
     loss_lz_AB = 1 / (lz_AB + eps)
     loss_lz_BA = 1 / (lz_BA + eps)
 
-    # rvs cycle loss
-    #loss_L1_rvs = torch.mean(torch.abs(self.fake_random_img-self.fake_random_double_rvs))* self.opts.lambda_rec
-    
+   
     loss_G = loss_G_GAN+ loss_G_GAN2 + loss_G_L1_self + loss_G_L1_cc + loss_mmd_za + loss_style + loss_G_GAN_content +\
              loss_z_L1_a + loss_z_L1_b + loss_G_GAN2  + loss_lz_AB + loss_lz_BA 
     loss_G.backward()
@@ -369,19 +338,12 @@ class CIT(nn.Module):
     self.style_loss = loss_style.item()
     self.l1_recon_z_loss = loss_z_L1_a.item() + loss_z_L1_b.item()
     self.lz_ms = loss_lz_AB.item() + loss_lz_BA.item()
-    #self.img_L1_rvs = loss_L1_rvs.item()
     self.G_loss = loss_G.item()
 
   def backward_G_GAN_content(self, data):
     pred_cls = self.disContent.forward(data)
     loss_G_content = self.criterion_GAN(pred_cls, 1-self.c_org)
     return loss_G_content
-
-  
-  def _l2_regularize(self, mu):
-    mu_2 = torch.pow(mu, 2)
-    encoding_loss = torch.mean(mu_2)
-    return encoding_loss
 
   def assemble_outputs(self):
     images_a = self.normalize_image(self.real_A).detach()
@@ -449,3 +411,43 @@ class CIT(nn.Module):
       self.f_opt.load_state_dict(checkpoint['f_opt'])
     return checkpoint['ep'], checkpoint['total_it']
 
+
+  def test_interpolate_latent_save_rdm(self, img, index):
+      z_content = self.enc_c.forward(img)
+      latent_code1 = self.enc_a.forward(img)
+
+      c_mask = np.ones((self.num_domains,)) * -1
+      c_mask[index] = 1
+      c_trg_mask = torch.FloatTensor(c_mask).cuda()
+      c_trg_mask = c_trg_mask.view(-1, 1).repeat(1, self.nz)
+      c_trg_mask = c_trg_mask.view(self.num_domains * self.nz)
+
+      latent_code2 = self.get_z_random(img.size(0), self.nz * self.num_domains)
+      latent_code2 = torch.abs(latent_code2) * c_trg_mask
+
+      alpha_list = np.linspace(0, 1, 20)
+      alpha = torch.FloatTensor([alpha_list]).cuda().view(-1,1)
+      latent_code1 = latent_code1.repeat(alpha.size(0),1)
+      latent_code2 = latent_code2.repeat(alpha.size(0),1)
+      latent_code_mix = latent_code1 + alpha * (latent_code2 - latent_code1)
+      z_content = z_content.repeat(alpha.size(0),1,1,1)
+      output = self.gen.forward(z_content, self.f.forward(latent_code_mix))
+      output_list = [output[i] for i in range(output.size(0))]
+      names = ['output_{}'.format(i) for i in range(output.size(0))]
+      return output_list, names
+
+
+  def test_interpolate_ref_save(self, img1, img2):
+      z_content = self.enc_c.forward(img1)
+      latent_code1 = self.enc_a.forward(img1)
+      latent_code2 = self.enc_a.forward(img2)
+      alpha_list = np.linspace(0, 1, 21)
+      alpha = torch.FloatTensor([alpha_list]).cuda().view(-1, 1)
+      latent_code1 = latent_code1.repeat(alpha.size(0), 1)
+      latent_code2 = latent_code2.repeat(alpha.size(0), 1)
+      latent_code_mix = latent_code1 + alpha * (latent_code2 - latent_code1)
+      z_content = z_content.repeat(alpha.size(0), 1, 1, 1)
+      output = self.gen.forward(z_content, self.f.forward(latent_code_mix))
+      output_list = [output[i] for i in range(output.size(0))]
+      names = ['output_{}'.format(i) for i in range(output.size(0))]
+      return output_list, names
