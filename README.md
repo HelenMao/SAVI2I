@@ -74,7 +74,7 @@ Download and save them into
 ```
 
 ## Testing 
-**Reference-guided
+**Reference-guided**
 ```
 python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num 5 --name CelebAHQ_ref  
 ```
