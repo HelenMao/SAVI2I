@@ -29,52 +29,51 @@ Pytorch implementation for SAVI2I. We propose a simple yet effective signed attr
 ### Install
 - Clone this repo:
 ```
-git clone https://github.com/HelenMao/MSGAN.git
+git clone https://github.com/HelenMao/SAVI2I.git
 ```
-## Training Examples
+## Training Datasets
 Download datasets for each task into the dataset folder
 ```
 mkdir datasets
 ```
+- Yosemite  (summer <-> winter) 
+- Photo2Artworks
+- CelebA-HQ
+We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
+- AFHQ 
 
-You can download the facades and maps datasets from the BicycleGAN [[Github Project]](https://github.com/junyanz/BicycleGAN). <br>
-We employ the network architecture of the BicycleGAN and follow the training process of Pix2Pix.
+## Training
+- Yosemite
 ```
-cd MSGAN/Pix2Pix-Mode-Seeking
-python train.py --dataroot ./datasets/facades
+python train.py --dataroot ./datasets/Yosemite/ --phase train --type 1 --name yosemite --n_ep 1000 --n_ep_decay 500 --lambda_r1 10 --lambda_mmd 1 --num_domains 2
 ```
-- Unpaired Data: Yosemite (summer <-> winter) and Cat2Dog (cat <-> dog)
-- Baseline: DRIT <br>
+- Photo2Artworks
+```
+python train.py --dataroot ./datasets/Photo2Artworks/ --phase train --type 1 --name photo2artworks --n_ep 100 --n_ep_decay 0 --lambda_r1 10 --lambda_mmd 1 --num_domains 4
+```
+- CelebAHQ
+```
+python train.py --dataroot ./datasets/CelebAHQ/ --phase train --type 0 --name celebAHQ --n_ep 30 --n_ep_decay 0 --lambda_r1 1 --lambda_mmd 1 --num_domains 2
+```
+- AFHQ
+```
+python train.py --dataroot ./datasets/AFHQ/ --phase train --type 0 --name AFHQ --n_ep 100 --n_ep_decay 0 --lambda_r1 1 --lambda_mmd 10 --num_domains 3
+```
 
-You can download the datasets from the DRIT [[Github Project]](https://github.com/HsinYingLee/DRIT). <br>
-Specify `--concat 0` for Cat2Dog to handle large shape variation translation
-```
-cd MSGAN/DRIT-Mode-Seeking
-python train.py --dataroot ./datasets/cat2dog
-```
-### Conditioned on Text
-- Dataset: CUB-200-2011
-- Baseline: StackGAN++ <br>
 
-You can download the datasets from the StackGAN++ [[Github Project]](https://github.com/hanzhanggit/StackGAN-v2).
-```
-cd MSGAN/StackGAN++-Mode-Seeking
-python main.py --cfg cfg/birds_3stages.yml
-```
 ## Pre-trained Models
 
 
 Download and save them into 
 ```
 ./models/
+
 ```
 
-## Evaluation
-For [Pix2Pix](https://github.com/junyanz/BicycleGAN), [DRIT](https://github.com/HsinYingLee/DRIT), and [StackGAN++](https://github.com/hanzhanggit/StackGAN-v2), please follow the instructions of corresponding github projects of the baseline frameworks for more evaluation details. <br>
 ### Testing Examples
-**DCGAN-Mode-Seeking** <br>
+**Reference-guided
 ```
-python test.py --dataroot ./datasets/Cifar10 --resume ./models/DCGAN-Mode-Seeking/00199.pth
+python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth
 ```
 **Pix2Pix-Mode-Seeking** <br>
 ```
