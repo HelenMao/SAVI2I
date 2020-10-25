@@ -2,7 +2,7 @@
 
 # SAVI2I: Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors
 
-<img src='imgs/teasear.png' width="900px">
+<img src='imgs/teasear.png' width="1200px">
 
 Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
 
