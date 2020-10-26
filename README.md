@@ -9,8 +9,13 @@ Pytorch implementation for SAVI2I. We propose a simple yet effective signed attr
 ## Qualitative Results
 ### Reference-guided
 - Summer2Winter
+<img src='imgs/s2w/comparison_ref_s2w.gif' width="1200px">
 
-- Photo2Artwork
+- Winter2Summer
+<img src='imgs/w2s/comparison_ref_w2s.gif' width="1200px">
+
+- Photo2Artworks (Monet,  Van Gogh and Ukiyo-e)
+<img src='imgs/p2a/comparison_ref_p2a.gif' width="1200px">
 
 - Male2Female
 
