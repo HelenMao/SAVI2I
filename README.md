@@ -38,10 +38,10 @@ mkdir datasets
 ```
 You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2Artworks datasets.
 - Yosemite  (summer <-> winter) 
-- Photo2Artworks (Photo, Monet, Van Gogh, Ukiyo-e)
-- CelebA-HQ <br> (Male  <-> Female)
+- Photo2Artworks (Photo, Monet, Van Gogh and Ukiyo-e)
+- CelebA-HQ (Male  <-> Female)  <br> 
 We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
-- [AFHQ](https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq)  (Cat, Dog, WildLife)
+- [AFHQ](https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq)  (Cat, Dog and WildLife)
 
 ## Training
 - Yosemite
