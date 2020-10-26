@@ -40,7 +40,7 @@ mkdir datasets
 - Photo2Artworks
 - CelebA-HQ <br>
 We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
-- AFHQ 
+- [AFHQ](https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq) 
 
 ## Training
 - Yosemite
