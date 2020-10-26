@@ -18,10 +18,14 @@ Pytorch implementation for SAVI2I. We propose a simple yet effective signed attr
 <img src='imgs/p2a/comparison_ref_p2a.gif' width="1200px">
 
 - Male2Female
+<img src='imgs/m2f/comparison_ref_m2f.gif' width="1200px">
 
-- Female2Male
+- Cat2Dog
+<img src='imgs/c2d/comparison_ref_c2d.gif' width="1200px">
 
-- AFHQ
+- Cat2Wildlife
+<img src='imgs/c2w/comparison_ref_c2w.gif' width="1200px">
+
 
 
 ## Usage
