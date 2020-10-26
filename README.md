@@ -56,7 +56,7 @@ We split CelebA-HQ into male and female domains according to the annotated label
 ## Training
 - Yosemite
 ```
-python train.py --dataroot ./datasets/Yosemite/ --phase train --type 1 --name yosemite --n_ep 1000 --n_ep_decay 500 --lambda_r1 10 --lambda_mmd 1 --num_domains 2
+python train.py --dataroot ./datasets/Yosemite/ --phase train --type 1 --name yosemite --n_ep 700 --n_ep_decay 500 --lambda_r1 10 --lambda_mmd 1 --num_domains 2
 ```
 - Photo2Artworks
 ```
