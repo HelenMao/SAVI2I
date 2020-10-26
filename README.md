@@ -31,6 +31,15 @@ Pytorch implementation for SAVI2I. We propose a simple yet effective signed attr
 
 ### Latent-guided
 
+- Female2Male
+<img src='imgs/f2m/comparison_rdm_f2m.gif' width="1200px">
+
+- Wildlife2Cat
+<img src='imgs/w2c/comparison_rdm_w2c.gif' width="1200px">
+
+- Wildlife2Dog
+<img src='imgs/w2d/comparison_rdm_w2d.gif' width="1200px">
+
 
 ## Usage
 
