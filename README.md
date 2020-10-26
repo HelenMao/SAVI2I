@@ -26,6 +26,10 @@ Pytorch implementation for SAVI2I. We propose a simple yet effective signed attr
 - Cat2Wildlife
 <img src='imgs/c2w/comparison_ref_c2w.gif' width="1200px">
 
+- Dog2Cat
+<img src='imgs/d2c/comparison_ref_d2c.gif' width="1200px">
+
+### Latent-guided
 
 
 ## Usage
@@ -46,7 +50,7 @@ Download datasets for each task into the dataset folder
 mkdir datasets
 ```
 - Yosemite  (summer <-> winter) 
-- Photo2Artworks (Photo, Monet, Van Gogh and Ukiyo-e)
+- Photo2Artworks (Photo, Monet, Van Gogh and Ukiyo-e) <br>
 You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2Artworks datasets.
 
 - CelebA-HQ (Male  <-> Female)  <br> 
