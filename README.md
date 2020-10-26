@@ -77,9 +77,9 @@ Download and save them into
 ## Testing 
 **Reference-guided**
 ```
-python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num 5 --name CelebAHQ_ref  
+python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num_domains 2 --index_s A --index_t B --num 5 --name CelebAHQ_ref  
 ```
 **Latent-guided** 
 ```
-python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num 5 --name CelebAHQ_rdm  
+python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num_domains 2 --index_s A --index_t B --num 5 --name CelebAHQ_rdm  
 ```
