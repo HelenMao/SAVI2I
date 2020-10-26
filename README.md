@@ -2,7 +2,7 @@
 
 # SAVI2I: Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors
 
-<img src='imgs/teasear.png' width="1200px">
+<img src='imgs/teaser.png' width="1200px">
 
 Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
 
@@ -36,9 +36,10 @@ Download datasets for each task into the dataset folder
 ```
 mkdir datasets
 ```
-You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2Artworks datasets.
 - Yosemite  (summer <-> winter) 
 - Photo2Artworks (Photo, Monet, Van Gogh and Ukiyo-e)
+You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2Artworks datasets.
+
 - CelebA-HQ (Male  <-> Female)  <br> 
 We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
 - [AFHQ](https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq)  (Cat, Dog and WildLife)
@@ -83,3 +84,9 @@ python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/C
 ```
 python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num_domains 2 --index_s A --index_t B --num 5 --name CelebAHQ_rdm  
 ```
+
+## Acknowledgement
+Network architectures inspired from: <br>
+- [DRIT++](https://github.com/HsinYingLee/MDMM)
+- [StarGAN-v2](https://github.com/clovaai/stargan-v2)
+
