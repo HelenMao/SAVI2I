@@ -38,10 +38,10 @@ mkdir datasets
 ```
 You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2Artworks datasets.
 - Yosemite  (summer <-> winter) 
-- Photo2Artworks (Photo, Monet, Van Gogh, Ukiyo-e)
-- CelebA-HQ <br> (Male  <-> Female)
+- Photo2Artworks (Photo, Monet, Van Gogh and Ukiyo-e)
+- CelebA-HQ (Male  <-> Female)  <br> 
 We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
-- [AFHQ](https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq)  (Cat, Dog, WildLife)
+- [AFHQ](https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq)  (Cat, Dog and WildLife)
 
 ## Training
 - Yosemite
@@ -77,9 +77,9 @@ Download and save them into
 ## Testing 
 **Reference-guided**
 ```
-python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num 5 --name CelebAHQ_ref  
+python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num_domains 2 --index_s A --index_t B --num 5 --name CelebAHQ_ref  
 ```
 **Latent-guided** 
 ```
-python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num 5 --name CelebAHQ_rdm  
+python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num_domains 2 --index_s A --index_t B --num 5 --name CelebAHQ_rdm  
 ```
