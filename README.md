@@ -86,7 +86,7 @@ python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/
 ```
 
 ## Acknowledgement
-Network architectures inspired from:
-[DRIT++](https://github.com/HsinYingLee/MDMM)
-[StarGAN-v2] (https://github.com/clovaai/stargan-v2)
+Network architectures inspired from: <br>
+- [DRIT++](https://github.com/HsinYingLee/MDMM)
+- [StarGAN-v2] (https://github.com/clovaai/stargan-v2)
 
