@@ -135,7 +135,6 @@ python train.py --dataroot ./datasets/AFHQ/ --phase train --type 0 --name AFHQ -
 Download and save them into 
 ```
 ./models/
-
 ```
 
 ## Testing 
