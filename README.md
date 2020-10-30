@@ -129,8 +129,8 @@ If you find this work useful for your research, please cite our paper:
 
 ```
 
-## Acknowledgements
-Network architectures inspired from: <br>
+## Acknowledgement
+Codes and Network architectures inspired from: <br>
 - [DRIT++](https://github.com/HsinYingLee/MDMM)
 - [StarGAN-v2](https://github.com/clovaai/stargan-v2)
 
