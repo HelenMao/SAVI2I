@@ -153,7 +153,7 @@ All rights reserved.
 Licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) (**Attribution-NonCommercial-ShareAlike 4.0 International**)
 
 ## Acknowledgements
-Codes and Network architectures inspired from: <br>
+Codes and network architectures inspired from: <br>
 - [DRIT++](https://github.com/HsinYingLee/MDMM)
 - [StarGAN-v2](https://github.com/clovaai/stargan-v2)
 
