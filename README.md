@@ -40,6 +40,20 @@ Pytorch implementation for SAVI2I. We propose a simple yet effective signed attr
 - Wildlife2Dog
 <img src='imgs/w2d/comparison_rdm_w2d.gif' width="1200px">
 
+## Comparisons with the state-of-the-arts
+### Reference-guided
+From left-to-right: [StarGAN-v2](https://github.com/clovaai/stargan-v2), [HomoInterpGAN](https://github.com/yingcong/HomoInterpGAN), [FUNIT](https://github.com/NVlabs/FUNIT), Ours
+- male2female
+<img src='imgs/comparisons/comparison_ref_m2f.gif' width="1200px">
+-female2male
+<img src='imgs/comparisons/comparison_ref_f2m.gif' width="1200px">
+
+### Latent-guided
+From left-to-right: [StarGAN-v2](https://github.com/clovaai/stargan-v2), [DLOW](https://github.com/ETHRuiGong/DLOW), [RelGAN](https://github.com/willylulu/RelGAN), [Fader Networks](https://github.com/facebookresearch/FaderNetworks), Ours
+- male2female
+<img src='imgs/comparisons/comparison_rdm_m2f.gif' width="1200px">
+-female2male
+<img src='imgs/comparisons/comparison_rdm_f2m.gif' width="1200px">
 
 ## Usage
 
