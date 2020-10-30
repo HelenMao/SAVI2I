@@ -5,6 +5,7 @@
 <img src='imgs/teaser.png' width="1200px">
 
 Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
+Contact: Qi Mao (qimao@pku.edu.cn)
 
 ## Qualitative Results
 ### Reference-guided
@@ -121,7 +122,14 @@ python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/C
 python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num_domains 2 --index_s A --index_t B --num 5 --name CelebAHQ_rdm  
 ```
 
-## Acknowledgement
+## Citation
+If you find this work useful for your research, please cite our paper:
+
+```
+
+```
+
+## Acknowledgements
 Network architectures inspired from: <br>
 - [DRIT++](https://github.com/HsinYingLee/MDMM)
 - [StarGAN-v2](https://github.com/clovaai/stargan-v2)
