@@ -5,6 +5,7 @@
 <img src='imgs/teaser.png' width="1200px">
 
 Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
+<br>
 Contact: Qi Mao (qimao@pku.edu.cn)
 
 ## Qualitative Results
