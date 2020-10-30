@@ -104,8 +104,9 @@ We split CelebA-HQ into male and female domains according to the annotated label
 ## Training
 
 ### Notes
-- For low-level style translation tasks, you suggest to set ```--type=1``` to use corresponding network architectures.
-- For shape-variation translation tasks, you suggest to set ```--type=0``` to use corresponding network architectures.
+> For low-level style translation tasks, you suggest to set ```--type=1``` to use corresponding network architectures. <br>
+> For shape-variation translation tasks, you suggest to set ```--type=0``` to use corresponding network architectures.
+
 
 - Yosemite
 ```
@@ -148,7 +149,7 @@ python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/
 ```
 
 
-### License
+## License
 All rights reserved.
 Licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) (**Attribution-NonCommercial-ShareAlike 4.0 International**)
 
