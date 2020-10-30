@@ -11,7 +11,7 @@ Contact: Qi Mao (qimao@pku.edu.cn)
 
 ## Paper
 Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors<br>
-[Qi Mao](https://sites.google.com/view/qi-mao/), [Hsin-Ying Lee](https://research.snap.com/team/hsin-ying-lee/), [Hung-Yu Tseng](https://sites.google.com/site/hytseng0509/), , [Jia-Bin Huang](https://filebox.ece.vt.edu/~jbhuang/), [Siwei Ma](https://scholar.google.com/citations?user=y3YqlaUAAAAJ&hl=zh-CN), and [Ming-Hsuan Yang](http://faculty.ucmerced.edu/mhyang/)<br>
+[Qi Mao](https://sites.google.com/view/qi-mao/), [Hsin-Ying Lee](https://research.snap.com/team/hsin-ying-lee/), [Hung-Yu Tseng](https://sites.google.com/site/hytseng0509/), [Jia-Bin Huang](https://filebox.ece.vt.edu/~jbhuang/), [Siwei Ma](https://scholar.google.com/citations?user=y3YqlaUAAAAJ&hl=zh-CN), and [Ming-Hsuan Yang](http://faculty.ucmerced.edu/mhyang/)<br>
 In arXiv 2020
 
 ## Citation
