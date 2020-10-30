@@ -1,6 +1,5 @@
 import os
 import torchvision
-from tensorboardX import SummaryWriter
 import numpy as np
 from PIL import Image
 
