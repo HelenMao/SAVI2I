@@ -80,7 +80,7 @@ From left-to-right: [StarGAN-v2](https://github.com/clovaai/stargan-v2), [DLOW](
 - Pytorch 0.4.0+
 
 ### Hardware Requirement
-Suggest to use two P100 16GB GPUs or One V100 32GB GPUs.
+Suggest to use two P100 16GB GPUs or One V100 32GB GPU.
 
 
 ### Install
@@ -88,7 +88,7 @@ Suggest to use two P100 16GB GPUs or One V100 32GB GPUs.
 ```
 git clone https://github.com/HelenMao/SAVI2I.git
 ```
-## Training Datasets
+### Training Datasets
 Download datasets for each task into the dataset folder
 ```
 mkdir datasets
