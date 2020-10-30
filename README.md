@@ -31,7 +31,7 @@ If you find this work useful for your research, please cite our paper:
 - Winter2Summer
 <img src='imgs/w2s/comparison_ref_w2s.gif' width="1200px">
 
-- Photo2Artworks (Monet,  Van Gogh and Ukiyo-e)
+- Photo2Artwork (Monet,  Van Gogh and Ukiyo-e)
 <img src='imgs/p2a/comparison_ref_p2a.gif' width="1200px">
 
 - Male2Female
