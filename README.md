@@ -7,6 +7,8 @@
 
 Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
 <br>
+More video results please see [Our Webpage](https://helenmao.github.io/SAVI2I/)
+<br>
 Contact: Qi Mao (qimao@pku.edu.cn)
 
 ## Paper
@@ -20,59 +22,6 @@ If you find this work useful for your research, please cite our paper:
 ```
 
 ```
-
-
-## Qualitative Results
-> Due to the large images, you suggest to see the results after finishing loading.
-### Reference-guided
-- Summer2Winter
-<img src='imgs/s2w/comparison_ref_s2w.gif' width="1200px">
-
-- Winter2Summer
-<img src='imgs/w2s/comparison_ref_w2s.gif' width="1200px">
-
-- Photo2Artwork (Monet,  Van Gogh and Ukiyo-e)
-<img src='imgs/p2a/comparison_ref_p2a.gif' width="1200px">
-
-- Male2Female
-<img src='imgs/m2f/comparison_ref_m2f.gif' width="1200px">
-
-- Cat2Dog
-<img src='imgs/c2d/comparison_ref_c2d.gif' width="1200px">
-
-- Cat2Wildlife
-<img src='imgs/c2w/comparison_ref_c2w.gif' width="1200px">
-
-- Dog2Cat
-<img src='imgs/d2c/comparison_ref_d2c.gif' width="1200px">
-
-### Latent-guided
-
-- Female2Male
-<img src='imgs/f2m/comparison_rdm_f2m.gif' width="1200px">
-
-- Wildlife2Cat
-<img src='imgs/w2c/comparison_rdm_w2c.gif' width="1200px">
-
-- Wildlife2Dog
-<img src='imgs/w2d/comparison_rdm_w2d.gif' width="1200px">
-
-## Comparisons with the state-of-the-arts
-### Reference-guided
-From left-to-right: [StarGAN-v2](https://github.com/clovaai/stargan-v2), [HomoInterpGAN](https://github.com/yingcong/HomoInterpGAN), [FUNIT](https://github.com/NVlabs/FUNIT), and Ours
-- male2female
-<img src='imgs/comparisons/comparison_ref_m2f.gif' width="1200px">
-
-- female2male
-<img src='imgs/comparisons/comparison_ref_f2m.gif' width="1200px">
-
-### Latent-guided
-From left-to-right: [StarGAN-v2](https://github.com/clovaai/stargan-v2), [DLOW](https://github.com/ETHRuiGong/DLOW), [RelGAN](https://github.com/willylulu/RelGAN), [Fader Networks](https://github.com/facebookresearch/FaderNetworks), and Ours
-- male2female
-<img src='imgs/comparisons/comparison_rdm_m2f.gif' width="1200px">
-
-- female2male
-<img src='imgs/comparisons/comparison_rdm_f2m.gif' width="1200px">
 
 ## Quick Start
 
