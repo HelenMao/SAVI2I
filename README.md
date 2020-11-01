@@ -108,8 +108,9 @@ python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/
 
 
 ## License
-All rights reserved.
-Licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) (**Attribution-NonCommercial-ShareAlike 4.0 International**)
+All rights reserved. <br>
+Licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) (**Attribution-NonCommercial-ShareAlike 4.0 International**). <br>
+The codes are only for academical research use. For commercial use, please contact qimao@pku.edu.cn.
 
 ## Acknowledgements
 Codes and network architectures inspired from: <br>
