@@ -41,7 +41,7 @@ cd SAVI2I
 ```bash
 conda create -n SAVI2I python=3.6
 source activate SAVI2I
-pip install -r requirements 
+pip install -r requirements.txt 
 ```
 
 ### Training Datasets
