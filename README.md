@@ -1,8 +1,9 @@
 [![License CC BY-NC-SA 4.0](https://img.shields.io/badge/license-CC4.0-blue.svg)](https://raw.githubusercontent.com/nvlabs/SPADE/master/LICENSE.md)
 ![Python 3.6](https://img.shields.io/badge/python-3.6-green.svg)
 
-# SAVI2I: Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors
 
+# SAVI2I: Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors
+### [Paper] [[Project Website]](https://helenmao.github.io/SAVI2I/)
 <img src='imgs/teaser.png' width="1200px">
 
 Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
@@ -24,10 +25,10 @@ If you find this work useful for your research, please cite our paper:
 ```
 
 ## Quick Start
-
-
-### Hardware Requirement
-Suggest to use two P100 16GB GPUs or One V100 32GB GPU.
+### Prerequisites
+- Linux or Windows
+- Python 3+
+- Suggest to use two P100 16GB GPUs or One V100 32GB GPU.
 
 
 ### Install
