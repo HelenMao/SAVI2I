@@ -25,9 +25,6 @@ If you find this work useful for your research, please cite our paper:
 
 ## Quick Start
 
-### Prerequisites
-- Python 3.6
-- Pytorch 0.4.0+
 
 ### Hardware Requirement
 Suggest to use two P100 16GB GPUs or One V100 32GB GPU.
@@ -35,9 +32,17 @@ Suggest to use two P100 16GB GPUs or One V100 32GB GPU.
 
 ### Install
 - Clone this repo:
-```
+```bash
 git clone https://github.com/HelenMao/SAVI2I.git
+cd SAVI2I
 ```
+- This code requires Pytorch 0.4.0+ and Python 3+. Please install dependencies by
+```bash
+conda create -n SAVI2I python=3.6
+source activate SAVI2I
+pip install -r requirements 
+```
+
 ### Training Datasets
 Download datasets for each task into the dataset folder
 ```
