@@ -47,7 +47,7 @@ pip install -r requirements.txt
 ### Training Datasets
 Download datasets for each task into the dataset folder
 ```
-mkdir datasets
+./datasets
 ```
 - Style translation: Yosemite  (summer <-> winter) and Photo2Artwork (Photo, Monet, Van Gogh and Ukiyo-e) <br>
 >* You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2artwork datasets.
