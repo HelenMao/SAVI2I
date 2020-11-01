@@ -50,7 +50,7 @@ Download datasets for each task into the dataset folder
 mkdir datasets
 ```
 - Style translation: Yosemite  (summer <-> winter) and Photo2Artwork (Photo, Monet, Van Gogh and Ukiyo-e) <br>
->* You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2Artwork datasets.
+>* You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2artwork datasets.
 
 - Shape-variation translation: CelebA-HQ (Male  <-> Female)  and AFHQ (Cat, Dog and WildLife) <br>
 >* We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
@@ -64,41 +64,45 @@ mkdir datasets
 
 
 - Yosemite
-```
+```bash
 python train.py --dataroot ./datasets/Yosemite/ --phase train --type 1 --name yosemite --n_ep 700 --n_ep_decay 500 --lambda_r1 10 --lambda_mmd 1 --num_domains 2
 ```
-- Photo2Artwork
-```
-python train.py --dataroot ./datasets/Photo2Artworks/ --phase train --type 1 --name photo2artworks --n_ep 100 --n_ep_decay 0 --lambda_r1 10 --lambda_mmd 1 --num_domains 4
+- Photo2artwork
+```bash
+python train.py --dataroot ./datasets/Photo2artwork/ --phase train --type 1 --name photo2artworks --n_ep 100 --n_ep_decay 0 --lambda_r1 10 --lambda_mmd 1 --num_domains 4
 ```
 - CelebAHQ
-```
+```bash
 python train.py --dataroot ./datasets/CelebAHQ/ --phase train --type 0 --name celebAHQ --n_ep 30 --n_ep_decay 0 --lambda_r1 1 --lambda_mmd 1 --num_domains 2
 ```
 - AFHQ
-```
+```bash
 python train.py --dataroot ./datasets/AFHQ/ --phase train --type 0 --name AFHQ --n_ep 100 --n_ep_decay 0 --lambda_r1 1 --lambda_mmd 10 --num_domains 3
 ```
 
 
 ## Pre-trained Models
-- [Yosemite](https://drive.google.com/file/d/1relOFLfOW0ACpr_u6DXgll7Qf6sLSstx/view?usp=sharing) 
-- [Photo2Artwork](https://drive.google.com/file/d/1B1G_Ml-a0phvBG_ePlbwBOpT4hOk9X9h/view?usp=sharing)
-- [CelebAHQ](https://drive.google.com/file/d/1x0sRX-QTQ3z5Eep-ROmX9wcAMHWIBT6j/view?usp=sharing)
+- [Yosemite](https://drive.google.com/file/d/1relOFLfOW0ACpr_u6DXgll7Qf6sLSstx/) 
+- [Photo2artwork](https://drive.google.com/file/d/1B1G_Ml-a0phvBG_ePlbwBOpT4hOk9X9h/)
+- [CelebAHQ](https://drive.google.com/file/d/1x0sRX-QTQ3z5Eep-ROmX9wcAMHWIBT6j/)
 - [AFHQ](https://drive.google.com/open?id=1tnDDolN-OMLG4BUNB6rPIjSXoP2FbXgw)
 
 Download and save them into 
 ```
-./models/
+./models
+```
+or download the pre-trained models with the following script.
+```bash
+bash ./download_models.sh
 ```
 
 ## Testing 
 **Reference-guided**
-```
+```bash
 python test_reference_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num_domains 2 --index_s A --index_t B --num 5 --name CelebAHQ_ref  
 ```
 **Latent-guided** 
-```
+```bash
 python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/CelebAHQ/00029.pth --phase test --type 0 --num_domains 2 --index_s A --index_t B --num 5 --name CelebAHQ_rdm  
 ```
 
