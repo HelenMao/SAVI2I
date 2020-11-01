@@ -65,15 +65,15 @@ Download datasets for each task into the dataset folder
 
 - Yosemite
 ```bash
-python train.py --dataroot ./datasets/Yosemite/ --phase train --type 1 --name yosemite --n_ep 700 --n_ep_decay 500 --lambda_r1 10 --lambda_mmd 1 --num_domains 2
+python train.py --dataroot ./datasets/Yosemite/ --phase train --type 1 --name Yosemite --n_ep 700 --n_ep_decay 500 --lambda_r1 10 --lambda_mmd 1 --num_domains 2
 ```
 - Photo2artwork
 ```bash
-python train.py --dataroot ./datasets/Photo2artwork/ --phase train --type 1 --name photo2artworks --n_ep 100 --n_ep_decay 0 --lambda_r1 10 --lambda_mmd 1 --num_domains 4
+python train.py --dataroot ./datasets/Photo2artwork/ --phase train --type 1 --name Photo2artwork --n_ep 100 --n_ep_decay 0 --lambda_r1 10 --lambda_mmd 1 --num_domains 4
 ```
 - CelebAHQ
 ```bash
-python train.py --dataroot ./datasets/CelebAHQ/ --phase train --type 0 --name celebAHQ --n_ep 30 --n_ep_decay 0 --lambda_r1 1 --lambda_mmd 1 --num_domains 2
+python train.py --dataroot ./datasets/CelebAHQ/ --phase train --type 0 --name CelebAHQ --n_ep 30 --n_ep_decay 0 --lambda_r1 1 --lambda_mmd 1 --num_domains 2
 ```
 - AFHQ
 ```bash
