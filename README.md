@@ -49,13 +49,12 @@ Download datasets for each task into the dataset folder
 ```
 mkdir datasets
 ```
-- Yosemite  (summer <-> winter) 
-- Photo2Artworks (Photo, Monet, Van Gogh and Ukiyo-e) <br>
-You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2Artworks datasets.
+- Style translation: Yosemite  (summer <-> winter) and Photo2Artwork (Photo, Monet, Van Gogh and Ukiyo-e) <br>
+>* You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2Artwork datasets.
 
-- CelebA-HQ (Male  <-> Female)  <br> 
-We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
-- [AFHQ](https://github.com/clovaai/stargan-v2/blob/master/README.md#animal-faces-hq-dataset-afhq)  (Cat, Dog and WildLife)
+- Shape-variation translation: CelebA-HQ (Male  <-> Female)  and AFHQ (Cat, Dog and WildLife) <br>
+>* We split CelebA-HQ into male and female domains according to the annotated label and fine-tune the images manaully. 
+>* You can follow the instructions of [StarGAN-v2 datasets](https://github.com/clovaai/stargan-v2) to download CelebA-HQ and AFHQ datasets.
 
 ## Training
 
