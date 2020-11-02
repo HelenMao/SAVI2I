@@ -47,7 +47,7 @@ pip install -r requirements.txt
 ### Training Datasets
 Download datasets for each task into the dataset folder
 ```
-mkdir datasets
+./datasets
 ```
 - Style translation: Yosemite  (summer <-> winter) and Photo2Artwork (Photo, Monet, Van Gogh and Ukiyo-e) <br>
 >* You can follow the instructions of [CycleGAN datasets](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/blob/master/docs/datasets.md) to download Yosemite and Photo2artwork datasets.
@@ -65,15 +65,15 @@ mkdir datasets
 
 - Yosemite
 ```bash
-python train.py --dataroot ./datasets/Yosemite/ --phase train --type 1 --name yosemite --n_ep 700 --n_ep_decay 500 --lambda_r1 10 --lambda_mmd 1 --num_domains 2
+python train.py --dataroot ./datasets/Yosemite/ --phase train --type 1 --name Yosemite --n_ep 700 --n_ep_decay 500 --lambda_r1 10 --lambda_mmd 1 --num_domains 2
 ```
 - Photo2artwork
 ```bash
-python train.py --dataroot ./datasets/Photo2artwork/ --phase train --type 1 --name photo2artworks --n_ep 100 --n_ep_decay 0 --lambda_r1 10 --lambda_mmd 1 --num_domains 4
+python train.py --dataroot ./datasets/Photo2artwork/ --phase train --type 1 --name Photo2artwork --n_ep 100 --n_ep_decay 0 --lambda_r1 10 --lambda_mmd 1 --num_domains 4
 ```
 - CelebAHQ
 ```bash
-python train.py --dataroot ./datasets/CelebAHQ/ --phase train --type 0 --name celebAHQ --n_ep 30 --n_ep_decay 0 --lambda_r1 1 --lambda_mmd 1 --num_domains 2
+python train.py --dataroot ./datasets/CelebAHQ/ --phase train --type 0 --name CelebAHQ --n_ep 30 --n_ep_decay 0 --lambda_r1 1 --lambda_mmd 1 --num_domains 2
 ```
 - AFHQ
 ```bash
@@ -85,7 +85,7 @@ python train.py --dataroot ./datasets/AFHQ/ --phase train --type 0 --name AFHQ -
 - [Yosemite](https://drive.google.com/file/d/1relOFLfOW0ACpr_u6DXgll7Qf6sLSstx/) 
 - [Photo2artwork](https://drive.google.com/file/d/1B1G_Ml-a0phvBG_ePlbwBOpT4hOk9X9h/)
 - [CelebAHQ](https://drive.google.com/file/d/1x0sRX-QTQ3z5Eep-ROmX9wcAMHWIBT6j/)
-- [AFHQ](https://drive.google.com/open?id=1tnDDolN-OMLG4BUNB6rPIjSXoP2FbXgw)
+- [AFHQ](https://drive.google.com/file/d/19hsK63GJyT_qaqAwaE8mM_zBWncYtBzB/)
 
 Download and save them into 
 ```
@@ -108,8 +108,9 @@ python test_latent_rdm_save.py --dataroot ./datasets/CelebAHQ --resume ./models/
 
 
 ## License
-All rights reserved.
-Licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) (**Attribution-NonCommercial-ShareAlike 4.0 International**)
+All rights reserved. <br>
+Licensed under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode) (**Attribution-NonCommercial-ShareAlike 4.0 International**). <br>
+The codes are only for academical research use. For commercial use, please contact qimao@pku.edu.cn.
 
 ## Acknowledgements
 Codes and network architectures inspired from: <br>
