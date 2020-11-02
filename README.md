@@ -85,7 +85,7 @@ python train.py --dataroot ./datasets/AFHQ/ --phase train --type 0 --name AFHQ -
 - [Yosemite](https://drive.google.com/file/d/1relOFLfOW0ACpr_u6DXgll7Qf6sLSstx/) 
 - [Photo2artwork](https://drive.google.com/file/d/1B1G_Ml-a0phvBG_ePlbwBOpT4hOk9X9h/)
 - [CelebAHQ](https://drive.google.com/file/d/1x0sRX-QTQ3z5Eep-ROmX9wcAMHWIBT6j/)
-- [AFHQ](https://drive.google.com/open?id=1tnDDolN-OMLG4BUNB6rPIjSXoP2FbXgw)
+- [AFHQ](https://drive.google.com/file/d/19hsK63GJyT_qaqAwaE8mM_zBWncYtBzB/)
 
 Download and save them into 
 ```
