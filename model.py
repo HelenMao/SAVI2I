@@ -413,41 +413,41 @@ class SAVI2I(nn.Module):
 
 
   def test_interpolate_latent_save_rdm(self, img, index):
-      z_content = self.enc_c.forward(img)
-      latent_code1 = self.enc_a.forward(img)
+    z_content = self.enc_c.forward(img)
+    latent_code1 = self.enc_a.forward(img)
 
-      c_mask = np.ones((self.num_domains,)) * -1
-      c_mask[index] = 1
-      c_trg_mask = torch.FloatTensor(c_mask).cuda()
-      c_trg_mask = c_trg_mask.view(-1, 1).repeat(1, self.nz)
-      c_trg_mask = c_trg_mask.view(self.num_domains * self.nz)
+    c_mask = np.ones((self.num_domains,)) * -1
+    c_mask[index] = 1
+    c_trg_mask = torch.FloatTensor(c_mask).cuda()
+    c_trg_mask = c_trg_mask.view(-1, 1).repeat(1, self.nz)
+    c_trg_mask = c_trg_mask.view(self.num_domains * self.nz)
 
-      latent_code2 = self.get_z_random(img.size(0), self.nz * self.num_domains)
-      latent_code2 = torch.abs(latent_code2) * c_trg_mask
+    latent_code2 = self.get_z_random(img.size(0), self.nz * self.num_domains)
+    latent_code2 = torch.abs(latent_code2) * c_trg_mask
 
-      alpha_list = np.linspace(0, 1, 20)
-      alpha = torch.FloatTensor([alpha_list]).cuda().view(-1,1)
-      latent_code1 = latent_code1.repeat(alpha.size(0),1)
-      latent_code2 = latent_code2.repeat(alpha.size(0),1)
-      latent_code_mix = latent_code1 + alpha * (latent_code2 - latent_code1)
-      z_content = z_content.repeat(alpha.size(0),1,1,1)
-      output = self.gen.forward(z_content, self.f.forward(latent_code_mix))
-      output_list = [output[i] for i in range(output.size(0))]
-      names = ['output_{}'.format(i) for i in range(output.size(0))]
-      return output_list, names
+    alpha_list = np.linspace(0, 1, 20)
+    alpha = torch.FloatTensor([alpha_list]).cuda().view(-1,1)
+    latent_code1 = latent_code1.repeat(alpha.size(0),1)
+    latent_code2 = latent_code2.repeat(alpha.size(0),1)
+    latent_code_mix = latent_code1 + alpha * (latent_code2 - latent_code1)
+    z_content = z_content.repeat(alpha.size(0),1,1,1)
+    output = self.gen.forward(z_content, self.f.forward(latent_code_mix))
+    output_list = [output[i] for i in range(output.size(0))]
+    names = ['output_{}'.format(i) for i in range(output.size(0))]
+    return output_list, names
 
 
   def test_interpolate_ref_save(self, img1, img2):
-      z_content = self.enc_c.forward(img1)
-      latent_code1 = self.enc_a.forward(img1)
-      latent_code2 = self.enc_a.forward(img2)
-      alpha_list = np.linspace(0, 1, 21)
-      alpha = torch.FloatTensor([alpha_list]).cuda().view(-1, 1)
-      latent_code1 = latent_code1.repeat(alpha.size(0), 1)
-      latent_code2 = latent_code2.repeat(alpha.size(0), 1)
-      latent_code_mix = latent_code1 + alpha * (latent_code2 - latent_code1)
-      z_content = z_content.repeat(alpha.size(0), 1, 1, 1)
-      output = self.gen.forward(z_content, self.f.forward(latent_code_mix))
-      output_list = [output[i] for i in range(output.size(0))]
-      names = ['output_{}'.format(i) for i in range(output.size(0))]
-      return output_list, names
+    z_content = self.enc_c.forward(img1)
+    latent_code1 = self.enc_a.forward(img1)
+    latent_code2 = self.enc_a.forward(img2)
+    alpha_list = np.linspace(0, 1, 21)
+    alpha = torch.FloatTensor([alpha_list]).cuda().view(-1, 1)
+    latent_code1 = latent_code1.repeat(alpha.size(0), 1)
+    latent_code2 = latent_code2.repeat(alpha.size(0), 1)
+    latent_code_mix = latent_code1 + alpha * (latent_code2 - latent_code1)
+    z_content = z_content.repeat(alpha.size(0), 1, 1, 1)
+    output = self.gen.forward(z_content, self.f.forward(latent_code_mix))
+    output_list = [output[i] for i in range(output.size(0))]
+    names = ['output_{}'.format(i) for i in range(output.size(0))]
+    return output_list, names

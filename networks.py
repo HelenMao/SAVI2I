@@ -125,44 +125,44 @@ class Generator_shape(nn.Module):
 
 
 class Generator_style(nn.Module):
-    def __init__(self, img_size=256, style_dim=64, max_conv_dim=256, output_dim=3):
-        super(Generator_style, self).__init__()
-        dim_in = max_conv_dim
-        repeat_num = int(np.log2(img_size)) - 6
-        self.style_dim = style_dim
-        min_conv_dim = max_conv_dim // (2 ** repeat_num)
-        self.decode1 = nn.ModuleList()
-        self.decode2 = nn.ModuleList()
-        self.to_rgb = nn.Sequential(
-            nn.InstanceNorm2d(min_conv_dim, affine=True),
-            nn.LeakyReLU(0.2),
-            nn.Conv2d(min_conv_dim, output_dim, 1, 1, 0))
+  def __init__(self, img_size=256, style_dim=64, max_conv_dim=256, output_dim=3):
+      super(Generator_style, self).__init__()
+      dim_in = max_conv_dim
+      repeat_num = int(np.log2(img_size)) - 6
+      self.style_dim = style_dim
+      min_conv_dim = max_conv_dim // (2 ** repeat_num)
+      self.decode1 = nn.ModuleList()
+      self.decode2 = nn.ModuleList()
+      self.to_rgb = nn.Sequential(
+          nn.InstanceNorm2d(min_conv_dim, affine=True),
+          nn.LeakyReLU(0.2),
+          nn.Conv2d(min_conv_dim, output_dim, 1, 1, 0))
 
-        for _ in range(2):
-            dim_out = dim_in
-            self.decode1.append(ResBlk(dim_in + self.style_dim, dim_out, normalize=True))
+      for _ in range(2):
+          dim_out = dim_in
+          self.decode1.append(ResBlk(dim_in + self.style_dim, dim_out, normalize=True))
 
-        for _ in range(repeat_num):
-            dim_in = dim_out
-            dim_out = max(dim_in // 2, min_conv_dim)
-            self.decode2.append(
-                ReLUINSConvTranspose2d(dim_in + self.style_dim, dim_out, kernel_size=3, stride=2, padding=1,
-                                       output_padding=1))
+      for _ in range(repeat_num):
+          dim_in = dim_out
+          dim_out = max(dim_in // 2, min_conv_dim)
+          self.decode2.append(
+              ReLUINSConvTranspose2d(dim_in + self.style_dim, dim_out, kernel_size=3, stride=2, padding=1,
+                                     output_padding=1))
 
-        self.to_rgb.apply(gaussian_weights_init)
-        self.decode1.apply(he_init)
-        return
+      self.to_rgb.apply(gaussian_weights_init)
+      self.decode1.apply(he_init)
+      return
 
-    def forward(self, x, s):
-        for block in self.decode1:
-            s_img = s.view(s.size(0), s.size(1), 1, 1).expand(s.size(0), s.size(1), x.size(2), x.size(3))
-            x_s = torch.cat([x, s_img], 1)
-            x = block(x_s)
-        for block in self.decode2:
-            s_img = s.view(s.size(0), s.size(1), 1, 1).expand(s.size(0), s.size(1), x.size(2), x.size(3))
-            x_s = torch.cat([x, s_img], 1)
-            x = block(x_s)
-        return self.to_rgb(x)
+  def forward(self, x, s):
+      for block in self.decode1:
+          s_img = s.view(s.size(0), s.size(1), 1, 1).expand(s.size(0), s.size(1), x.size(2), x.size(3))
+          x_s = torch.cat([x, s_img], 1)
+          x = block(x_s)
+      for block in self.decode2:
+          s_img = s.view(s.size(0), s.size(1), 1, 1).expand(s.size(0), s.size(1), x.size(2), x.size(3))
+          x_s = torch.cat([x, s_img], 1)
+          x = block(x_s)
+      return self.to_rgb(x)
 
 class Discriminator(nn.Module):
   def __init__(self, img_size=256, num_domains=2, max_conv_dim=512):

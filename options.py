@@ -1,21 +1,21 @@
 import argparse
 
 class BaseOptions(object):
-    def __init__(self):
-        self.parser = argparse.ArgumentParser()
-        self.parser.add_argument('--dataroot', type=str, required=True, help='path of data')
-        self.parser.add_argument('--input_dim', type=int, default=3, help='# of input channels')
-        self.parser.add_argument('--nThreads', type=int, default=8, help='# of threads for data loader')
-        self.parser.add_argument('--num_domains', type=int, default=2, help='number of visual domains')
-        self.parser.add_argument('--resize_size', type=int, default=256, help='resized image size for training')
-        self.parser.add_argument('--img_size', type=int, default=256, help='cropped image size for training')
+  def __init__(self):
+    self.parser = argparse.ArgumentParser()
+    self.parser.add_argument('--dataroot', type=str, required=True, help='path of data')
+    self.parser.add_argument('--input_dim', type=int, default=3, help='# of input channels')
+    self.parser.add_argument('--nThreads', type=int, default=8, help='# of threads for data loader')
+    self.parser.add_argument('--num_domains', type=int, default=2, help='number of visual domains')
+    self.parser.add_argument('--resize_size', type=int, default=256, help='resized image size for training')
+    self.parser.add_argument('--img_size', type=int, default=256, help='cropped image size for training')
 
-        self.parser.add_argument('--input_nz', type=int, default=8, help='domain-specific attribute dimensions')
-        self.parser.add_argument('--style_dim', type=int, default=64, help='output dimensions of fusing networks')
-        self.parser.add_argument('--phase', type=str, default='train', help='phase for dataloading')
+    self.parser.add_argument('--input_nz', type=int, default=8, help='domain-specific attribute dimensions')
+    self.parser.add_argument('--style_dim', type=int, default=64, help='output dimensions of fusing networks')
+    self.parser.add_argument('--phase', type=str, default='train', help='phase for dataloading')
 
-        self.parser.add_argument('--type', type=int, default=1,
-                                 help='set 1 for low-level style translation, set 0 for using shape-variation translation')
+    self.parser.add_argument('--type', type=int, default=1,
+                             help='set 1 for low-level style translation, set 0 for using shape-variation translation')
 
 
 
