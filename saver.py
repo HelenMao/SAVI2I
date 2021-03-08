@@ -4,12 +4,15 @@ import numpy as np
 from PIL import Image
 
 # tensor to PIL Image
+def denormalize(x):
+  out = (x + 1) / 2
+  return out.clamp_(0, 1)
+
 def tensor2img(img):
-  img = img.cpu().float().numpy()
-  if img.shape[0] == 1:
-    img = np.tile(img, (3, 1, 1))
-  img = (np.transpose(img, (1, 2, 0)) + 1) / 2.0 * 255.0
+  img = denormalize(img)
+  img = img.cpu().mul(255).clamp(0, 255).byte().permute(1, 2, 0).numpy()
   return img.astype(np.uint8)
+
 
 # save a set of images
 def save_imgs(imgs, names, path):
