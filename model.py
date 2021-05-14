@@ -327,7 +327,7 @@ class SAVI2I(nn.Module):
 
    
     loss_G = loss_G_GAN+ loss_G_GAN2 + loss_G_L1_self + loss_G_L1_cc + loss_mmd_za + loss_style + loss_G_GAN_content +\
-             loss_z_L1_a + loss_z_L1_b + loss_G_GAN2  + loss_lz_AB + loss_lz_BA 
+             loss_z_L1_a + loss_z_L1_b + loss_lz_AB + loss_lz_BA 
     loss_G.backward()
 
     self.gan_loss = loss_G_GAN.item() + loss_G_GAN2.item()
