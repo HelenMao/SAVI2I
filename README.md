@@ -2,7 +2,7 @@
 ![Python 3.6](https://img.shields.io/badge/python-3.6-green.svg)
 
 
-# SAVI2I: Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors
+# SAVI2I: Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors (Published in IJCV2022)
 ### [[Paper](https://arxiv.org/abs/2011.01215)] [[Project Website](https://helenmao.github.io/SAVI2I/)]
 <img src='imgs/teaser.png' width="1200px">
 
@@ -14,7 +14,7 @@ Contact: Qi Mao (qimao@cuc.edu.cn)
 
 ## Paper
 Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors<br>
-[Qi Mao](https://sites.google.com/view/qi-mao/), [Hsin-Ying Lee](https://research.snap.com/team/hsin-ying-lee/), [Hung-Yu Tseng](https://sites.google.com/site/hytseng0509/), [Jia-Bin Huang](https://filebox.ece.vt.edu/~jbhuang/), [Siwei Ma](https://scholar.google.com/citations?user=y3YqlaUAAAAJ&hl=zh-CN), and [Ming-Hsuan Yang](http://faculty.ucmerced.edu/mhyang/)<br>
+[Qi Mao](https://sites.google.com/view/qi-mao/), [Hung-Yu Tseng](https://sites.google.com/site/hytseng0509/),[Hsin-Ying Lee](https://research.snap.com/team/hsin-ying-lee/),  [Jia-Bin Huang](https://filebox.ece.vt.edu/~jbhuang/), [Siwei Ma](https://scholar.google.com/citations?user=y3YqlaUAAAAJ&hl=zh-CN), and [Ming-Hsuan Yang](http://faculty.ucmerced.edu/mhyang/)<br>
 In [IJCV2022](https://arxiv.org/abs/2011.01215)
 
 ## Citation
