@@ -6,27 +6,31 @@
 ### [[Paper](https://arxiv.org/abs/2011.01215)] [[Project Website](https://helenmao.github.io/SAVI2I/)]
 <img src='imgs/teaser.png' width="1200px">
 
-Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains. 
+Pytorch implementation for SAVI2I. We propose a simple yet effective signed attribute vector (SAV) that facilitates **continuous** translation on **diverse** mapping paths across **multiple** domains using both **latent-** and **reference-** guided. 
 <br>
 More video results please see [Our Webpage](https://helenmao.github.io/SAVI2I/)
 <br>
-Contact: Qi Mao (qimao@pku.edu.cn)
+Contact: Qi Mao (qimao@cuc.edu.cn)
 
 ## Paper
 Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors<br>
 [Qi Mao](https://sites.google.com/view/qi-mao/), [Hsin-Ying Lee](https://research.snap.com/team/hsin-ying-lee/), [Hung-Yu Tseng](https://sites.google.com/site/hytseng0509/), [Jia-Bin Huang](https://filebox.ece.vt.edu/~jbhuang/), [Siwei Ma](https://scholar.google.com/citations?user=y3YqlaUAAAAJ&hl=zh-CN), and [Ming-Hsuan Yang](http://faculty.ucmerced.edu/mhyang/)<br>
-In [arXiv 2020](https://arxiv.org/abs/2011.01215)
+In [IJCV2022](https://arxiv.org/abs/2011.01215)
 
 ## Citation
 If you find this work useful for your research, please cite our paper:
 
 ```
-    @article{mao2020continuous,
-      author       = "Mao, Qi and Lee, Hsin-Ying and Tseng, Hung-Yu and Huang, Jia-Bin and Ma, Siwei and Yang, Ming-Hsuan",
-      title        = "Continuous and Diverse Image-to-Image Translation via Signed Attribute Vectors",
-      journal    = "arXiv preprint 2011.01215",
-      year         = "2020"
-    }
+@article{mao2022continuous,
+  title={Continuous and diverse image-to-image translation via signed attribute vectors},
+  author={Mao, Qi and Tseng, Hung-Yu and Lee, Hsin-Ying and Huang, Jia-Bin and Ma, Siwei and Yang, Ming-Hsuan},
+  journal={International Journal of Computer Vision},
+  volume={130},
+  number={2},
+  pages={517--549},
+  year={2022},
+  publisher={Springer}
+}
 ```
 
 ## Quick Start
